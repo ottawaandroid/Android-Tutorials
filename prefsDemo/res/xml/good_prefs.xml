@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+  <Preference
+  	android:title="Preference 1"
+  	android:summary="This is preference 1"
+  	android:key="preference1" />
+  <EditTextPreference
+  	android:title="Preference 2"
+  	android:summary="This text can be edited"
+  	android:persistent="true"
+  	android:defaultValue="Android Rocks!"
+  	android:key="preference2" />
+  <CheckBoxPreference
+  	android:title="Preference 3"
+  	android:summary="Click this button"
+  	android:persistent="true"
+  	android:key="preference3" />
+</PreferenceScreen>
