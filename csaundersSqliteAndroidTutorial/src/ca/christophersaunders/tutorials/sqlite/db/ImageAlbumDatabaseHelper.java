@@ -41,6 +41,18 @@ public class ImageAlbumDatabaseHelper {
 		}
 	}
 	
+	/**
+	 * Utility constructor to make testing easier to perform
+	 * @param context
+	 * @param databaseName
+	 */
+	protected ImageAlbumDatabaseHelper(Context context, String databaseName) {
+		this.context = context;
+		if(db == null || !db.isOpen()) {
+			db = new DatabaseHelper(context, databaseName).getWritableDatabase();
+		}
+	}
+	
 	private class DatabaseHelper extends SQLiteOpenHelper {
 		
 		private static final String DATABASE = "picasa_albums.sqlite";
@@ -50,6 +62,10 @@ public class ImageAlbumDatabaseHelper {
 		
 		public DatabaseHelper(Context context) {
 			super(context, DATABASE, null, VERSION);
+		}
+		
+		public DatabaseHelper(Context context, String databaseName) {
+			super(context, databaseName, null, VERSION);
 		}
 		
 		@Override
