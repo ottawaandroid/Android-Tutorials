@@ -19,54 +19,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-package ca.christophersaunders.tutorials.sqlite.picasa;
+package ca.christophersaunders.tutorials.sqlite.db;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
+import android.database.sqlite.SQLiteDatabase;
 
-public class PicasaAlbum {
+public abstract class DataManager {
 	
-	private String title;
-	private String author;
-	private Date createdDate;
-	private List<PicasaImage> albumImages = new ArrayList<PicasaImage>();
+	protected SQLiteDatabase db;
 	
-	public String getTitle() {
-		return title;
+	public DataManager(SQLiteDatabase db) {
+		if(!db.isOpen() || db.isReadOnly()) {
+			throw new IllegalArgumentException("INVALID DATABASE: Database is closed or read-only.");
+		}
+		this.db = db;
 	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public String getAuthor() {
-		return author;
-	}
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-	
-	public List<PicasaImage> getAlbumImages() {
-		return albumImages;
-	}
-	
-	public void setAlbumImages(List<PicasaImage> images) {
-		this.albumImages = images;
-	}
-	
-	public void addImage(PicasaImage image) {
-		albumImages.add(image);
-	}
-	
-	public boolean removeImage(PicasaImage image) {
-		return albumImages.remove(image);
-	}
-	
-	
 
 }
