@@ -43,10 +43,10 @@ public class PicasaAlbumManager extends DataManager {
 	
 	static final String CREATE_ALBUM_TABLE_SQL = 
 		"CREATE TABLE " + ALBUM_TABLE +
-		" (" + _ID + "INTEGER PRIMARY KEY AUTOINCREMENT," +
+		" (" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
 			TITLE + " STRING UNIQUE," +
 			AUTHOR + " STRING," +
-			PUB_DATE + "DATE)";
+			PUB_DATE + " DATE)";
 
 	
 	public PicasaAlbumManager(SQLiteDatabase db) {
@@ -59,7 +59,7 @@ public class PicasaAlbumManager extends DataManager {
 	 * @return the primary key for the stored album or
 	 * -1 if it failed
 	 */
-	protected long addAlbum(PicasaAlbum album) {
+	public long addAlbum(PicasaAlbum album) {
 		ContentValues values = new ContentValues();
 		
 		values.put(TITLE, album.getTitle());

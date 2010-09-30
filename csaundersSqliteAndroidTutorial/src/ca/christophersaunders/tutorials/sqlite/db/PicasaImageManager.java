@@ -21,7 +21,6 @@
  ******************************************************************************/
 package ca.christophersaunders.tutorials.sqlite.db;
 
-import java.io.ByteArrayOutputStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +28,6 @@ import java.util.List;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Bitmap.CompressFormat;
 import android.util.Log;
 import ca.christophersaunders.tutorials.sqlite.picasa.PicasaAlbum;
 import ca.christophersaunders.tutorials.sqlite.picasa.PicasaImage;
@@ -57,7 +53,7 @@ public class PicasaImageManager extends DataManager{
 			AUTHOR + " STRING," +
 			PUB_DATE + " DATE," +
 			IMAGE + " BLOB," +
-			IMAGE_THUMBNAIL + "BLOB);";
+			IMAGE_THUMBNAIL + " BLOB);";
 	
 	protected long addImage(PicasaImage image) {
 		
@@ -66,12 +62,8 @@ public class PicasaImageManager extends DataManager{
 		values.put(TITLE, image.getTitle());
 		values.put(AUTHOR, image.getAuthor());
 		values.put(PUB_DATE, image.getPublicationDate().toGMTString());
-		if(image.getThumbnail() != null) {
-			values.put(IMAGE_THUMBNAIL, compressToPNGBytes(image.getThumbnail()));
-		}
-		if(image.getImage() != null) {
-			values.put(IMAGE, compressToPNGBytes(image.getImage()));
-		}
+		values.put(IMAGE_THUMBNAIL, image.getThumbnailBytes());
+		values.put(IMAGE, image.getImageBytes());
 		
 		return db.insert(IMAGE_TABLE, TITLE, values);
 	}
@@ -82,12 +74,6 @@ public class PicasaImageManager extends DataManager{
 		return addImage(image);
 	}
 	
-	private byte[] compressToPNGBytes(Bitmap bitmap) {
-		ByteArrayOutputStream outputPNG = new ByteArrayOutputStream();
-		bitmap.compress(CompressFormat.PNG, 0, outputPNG);
-		return outputPNG.toByteArray();
-	}
-	
 	private PicasaImage createImageFromCursor(Cursor cursor) {
 		PicasaImage image = new PicasaImage();
 		
@@ -95,9 +81,9 @@ public class PicasaImageManager extends DataManager{
 		image.setAuthor(cursor.getString(cursor.getColumnIndex(AUTHOR)));
 		image.setPublicationDate(Date.valueOf(cursor.getString(cursor.getColumnIndex(PUB_DATE))));
 		byte[] imageBytes = cursor.getBlob(cursor.getColumnIndex(IMAGE));
-		image.setImage(BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length));
+		image.setImageBytes(imageBytes);
 		byte[] thumbnailBytes = cursor.getBlob(cursor.getColumnIndex(IMAGE_THUMBNAIL));
-		image.setThumbnail(BitmapFactory.decodeByteArray(thumbnailBytes, 0, thumbnailBytes.length));
+		image.setThumbnailBytes(thumbnailBytes);
 		
 		return image;
 	}

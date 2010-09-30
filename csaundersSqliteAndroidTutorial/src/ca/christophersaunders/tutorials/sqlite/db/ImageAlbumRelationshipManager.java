@@ -39,10 +39,10 @@ public class ImageAlbumRelationshipManager extends DataManager{
 	
 	static final String CREATE_ALBUM_IMAGE_RELATION_SQL = 
 		"CREATE TABLE " + IMAGE_ALBUM_RELATION +
-		" ( " + _ID + " INTEGER AUTOINCREMENT," +
-			ALBUM_ID + "INTEGER NOT NULL," +
-			IMAGE_ID + "INTEGER NOT NULL," +
-			"PRIMARY KEY( "+ ALBUM_ID + ", " + IMAGE_ID +");";
+		" ( " + //_ID + " INTEGER AUTOINCREMENT," +
+			ALBUM_ID + " INTEGER NOT NULL," +
+			IMAGE_ID + " INTEGER NOT NULL," +
+			"PRIMARY KEY( "+ ALBUM_ID + ", " + IMAGE_ID +") );";
 
 	public ImageAlbumRelationshipManager(SQLiteDatabase db) {
 		super(db);

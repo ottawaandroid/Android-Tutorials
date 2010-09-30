@@ -53,6 +53,14 @@ public class ImageAlbumDatabaseHelper {
 		}
 	}
 	
+	public PicasaAlbumManager getAlbumManager() {
+		return new PicasaAlbumManager(db);
+	}
+	
+	public PicasaImageManager getImageManager() {
+		return new PicasaImageManager(db);
+	}
+	
 	private class DatabaseHelper extends SQLiteOpenHelper {
 		
 		private static final String DATABASE = "picasa_albums.sqlite";

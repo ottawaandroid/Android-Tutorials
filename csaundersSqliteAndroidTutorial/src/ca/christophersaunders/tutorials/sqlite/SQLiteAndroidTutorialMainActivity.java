@@ -31,6 +31,8 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.SAXException;
 
+import ca.christophersaunders.tutorials.sqlite.db.ImageAlbumDatabaseHelper;
+import ca.christophersaunders.tutorials.sqlite.db.PicasaAlbumManager;
 import ca.christophersaunders.tutorials.sqlite.picasa.PicasaAlbum;
 import ca.christophersaunders.tutorials.sqlite.picasa.PicasaHandler;
 
@@ -52,6 +54,17 @@ public class SQLiteAndroidTutorialMainActivity extends Activity {
 	        parser.parse(picasaFeed.openStream(), picasaHandler);
 	        PicasaAlbum album = picasaHandler.getParsedAlbum();
 	        Log.d("Parser Results:", "There are " + album.getAlbumImages().size() + " images in the " + album.getTitle() +" album created by " + album.getAuthor());
+	        
+	        ImageAlbumDatabaseHelper databaseHelper = new ImageAlbumDatabaseHelper(getApplicationContext());
+	        PicasaAlbumManager albumManager = databaseHelper.getAlbumManager();
+	        long albumId = albumManager.addAlbum(album);
+	        if(albumId > 0) {
+	        	Log.d(getClass().toString(), "Successfully added album to the database");
+	        } else {
+	        	Log.e(getClass().toString(), "Error adding album to database.");
+	        	Log.e(getClass().toString(), "Proceeding to shit bricks");
+	        	System.exit(1);
+	        }
         } catch (SAXException saxException) {
         	saxException.printStackTrace();
         } catch (MalformedURLException murlException) {
