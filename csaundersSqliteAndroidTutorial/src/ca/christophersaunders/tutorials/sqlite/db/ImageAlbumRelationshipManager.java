@@ -55,14 +55,18 @@ public class ImageAlbumRelationshipManager extends DataManager{
 		
 		String[] queryArgs = { Long.toString(imageId) };
 		Cursor results = db.query(IMAGE_ALBUM_RELATION, null, IMAGE_ID+"=?", queryArgs, null, null, null);
-		if(results.getCount() > 0) {
-			if (results.getCount() > 1) {
-				// Something has happened with the relationship
-				Log.w("PicasaAlbumManager.ImageAlbumRelationship", "Image " + imageId + " points to more than one album.");
-				Log.w("PicasaAlbumManager.ImageAlbumRelationship", "Going to use first result returned.");
+		try {
+			if(results.getCount() > 0) {
+				if (results.getCount() > 1) {
+					// Something has happened with the relationship
+					Log.w("PicasaAlbumManager.ImageAlbumRelationship", "Image " + imageId + " points to more than one album.");
+					Log.w("PicasaAlbumManager.ImageAlbumRelationship", "Going to use first result returned.");
+				}
+				results.moveToFirst();
+				albumId = results.getLong(results.getColumnIndex(ALBUM_ID));
 			}
-			results.moveToFirst();
-			albumId = results.getLong(results.getColumnIndex(ALBUM_ID));
+		} finally {
+			results.close();
 		}
 		return albumId;
 	}
@@ -72,13 +76,17 @@ public class ImageAlbumRelationshipManager extends DataManager{
 		
 		String[] queryArgs = { Long.toString(albumId) };
 		Cursor results = db.query(IMAGE_ALBUM_RELATION, null, ALBUM_ID+"=?", queryArgs, null, null, null);
-		if(results.getCount() > 0) {
-			results.moveToFirst();
-			while(!results.isAfterLast()) {
-				long imageId = results.getLong(results.getColumnIndex(IMAGE_ID));
-				imageIds.add(imageId);
-				results.moveToNext();
+		try {
+			if(results.getCount() > 0) {
+				results.moveToFirst();
+				while(!results.isAfterLast()) {
+					long imageId = results.getLong(results.getColumnIndex(IMAGE_ID));
+					imageIds.add(imageId);
+					results.moveToNext();
+				}
 			}
+		} finally {
+			results.close();
 		}
 		return imageIds;
 	}

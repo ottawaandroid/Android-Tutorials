@@ -31,14 +31,16 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.SAXException;
 
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.ImageView;
 import ca.christophersaunders.tutorials.sqlite.db.ImageAlbumDatabaseHelper;
 import ca.christophersaunders.tutorials.sqlite.db.PicasaAlbumManager;
 import ca.christophersaunders.tutorials.sqlite.picasa.PicasaAlbum;
 import ca.christophersaunders.tutorials.sqlite.picasa.PicasaHandler;
-
-import android.app.Activity;
-import android.os.Bundle;
-import android.util.Log;
+import ca.christophersaunders.tutorials.sqlite.picasa.PicasaImage;
 
 public class SQLiteAndroidTutorialMainActivity extends Activity {
     /** Called when the activity is first created. */
@@ -57,13 +59,22 @@ public class SQLiteAndroidTutorialMainActivity extends Activity {
 	        
 	        ImageAlbumDatabaseHelper databaseHelper = new ImageAlbumDatabaseHelper(getApplicationContext());
 	        PicasaAlbumManager albumManager = databaseHelper.getAlbumManager();
-	        long albumId = albumManager.addAlbum(album);
-	        if(albumId > 0) {
-	        	Log.d(getClass().toString(), "Successfully added album to the database");
-	        } else {
-	        	Log.e(getClass().toString(), "Error adding album to database.");
-	        	Log.e(getClass().toString(), "Proceeding to shit bricks");
-	        	System.exit(1);
+	        if(!albumManager.albumExists(album.getTitle())) {
+	        	long albumId = albumManager.addAlbum(album);
+		        if(albumId > 0) {
+		        	Log.d(getClass().toString(), "Successfully added album to the database");
+		        } else {
+		        	Log.e(getClass().toString(), "Something went wrong when trying to add new information to disk");
+		        }
+	        }
+	        
+	        // Just be sure we have all the data we will need
+	        album = albumManager.getAlbumByName(album.getTitle());
+	        ImageView imageView = (ImageView) findViewById(R.id.imagePreview);
+	        for(PicasaImage image : album.getAlbumImages()) {
+	        	Bitmap thumbnail = image.getThumbnail();
+	        	imageView.setImageBitmap(thumbnail);
+	        	break;
 	        }
         } catch (SAXException saxException) {
         	saxException.printStackTrace();

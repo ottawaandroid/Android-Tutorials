@@ -64,7 +64,7 @@ public class PicasaAlbumManager extends DataManager {
 		
 		values.put(TITLE, album.getTitle());
 		values.put(AUTHOR, album.getAuthor());
-		values.put(PUB_DATE, album.getCreatedDate().toGMTString());
+		values.put(PUB_DATE, album.getCreatedDate().toString());
 		
 		long albumId =  db.insert(ALBUM_TABLE, TITLE, values);
 		if(albumId > 0 && album.getAlbumImages().size() > 0) {
@@ -110,6 +110,10 @@ public class PicasaAlbumManager extends DataManager {
 			result.close();
 		}
 		return album;
+	}
+	
+	public boolean albumExists(String albumName) {
+		return getAlbumByName(albumName) != null;
 	}
 	
 	public PicasaAlbum getAlbumByName(String albumName) {

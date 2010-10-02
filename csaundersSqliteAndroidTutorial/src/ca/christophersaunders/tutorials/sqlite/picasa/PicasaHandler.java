@@ -43,8 +43,8 @@ public class PicasaHandler extends DefaultHandler {
 	private static final String THUMBNAIL = "thumbnail";
 	
 	// Thumbnail Attributes
-	private static final String THUMBNAIL_WIDTH = "72";
-	private static final String THUMBNAIL_HEIGHT = "49";
+	private int current_thumbnail_width= Integer.MAX_VALUE;
+	private int current_thumbnail_height= Integer.MAX_VALUE;
 	
 	// URIs we care about
 	private static final String MEDIA_URI = "http://search.yahoo.com/mrss/";
@@ -76,10 +76,16 @@ public class PicasaHandler extends DefaultHandler {
 			}
 		}
 		if(localname.equalsIgnoreCase(THUMBNAIL) && inMediaGroup) {
-			String height = attributes.getValue("height");
-			String width = attributes.getValue("width");
-			if(height.equalsIgnoreCase(THUMBNAIL_HEIGHT) && width.equalsIgnoreCase(THUMBNAIL_WIDTH)) {
+			int thumb_height = Integer.parseInt(attributes.getValue("height"));
+			int thumb_width = Integer.parseInt(attributes.getValue("width"));
+			if(thumb_height < current_thumbnail_height && thumb_width < current_thumbnail_width) {
 				String thumbnailLocation = attributes.getValue("url");
+				// There is no guarantee that we will get thumbnails that are all
+				// of the same size from the XML.
+				// We want to ensure that we grab a thumbnail no matter what so go with the
+				// smallest one we can find.
+				current_thumbnail_height = thumb_height;
+				current_thumbnail_width = thumb_width;
 				if(thumbnailLocation != null) {
 					albumImageEntity.setThumbnailLocation(thumbnailLocation);
 				}
@@ -119,6 +125,10 @@ public class PicasaHandler extends DefaultHandler {
 		}
 		if(localname.equalsIgnoreCase(GROUP) && inMediaGroup) {
 			inMediaGroup = false;
+			// Ensure we reset the current height values back to their
+			// defaults
+			current_thumbnail_height = Integer.MAX_VALUE;
+			current_thumbnail_width = Integer.MAX_VALUE;
 		}
 		if(localname.equals(MANAGING_EDITOR)) {
 			String albumAuthor = buffer.toString();

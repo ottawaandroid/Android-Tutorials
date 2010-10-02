@@ -61,7 +61,7 @@ public class PicasaImageManager extends DataManager{
 		
 		values.put(TITLE, image.getTitle());
 		values.put(AUTHOR, image.getAuthor());
-		values.put(PUB_DATE, image.getPublicationDate().toGMTString());
+		values.put(PUB_DATE, image.getPublicationDate().toString());
 		values.put(IMAGE_THUMBNAIL, image.getThumbnailBytes());
 		values.put(IMAGE, image.getImageBytes());
 		

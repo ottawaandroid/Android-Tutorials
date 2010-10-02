@@ -78,6 +78,8 @@ public class PicasaImage {
 	public Bitmap getThumbnail() {
 		if(thumbnail == null && thumbnailLocation != null) {
 			getThumbnailBytes();
+		}
+		if(thumbnail == null && thumbnailBytes.length > 0) {
 			thumbnail = BitmapFactory.decodeByteArray(thumbnailBytes, 0, thumbnailBytes.length);
 		}
 		return thumbnail;
@@ -137,6 +139,7 @@ public class PicasaImage {
 			
 		} catch (Exception gottaCatchemAll) {
 			Log.w("PicasaImage", "Gotta catch em' all!");
+			Log.e("PicasaImage", String.format("Location string was probably bad: %s", location));
 			gottaCatchemAll.printStackTrace();
 		}
 		return new byte[0];
