@@ -38,13 +38,13 @@ public class PicasaImageManager extends DataManager{
 		super(db);
 	}
 	
-	static final String IMAGE_TABLE = "picasaImage";
-	static final String _ID = "_id"; // needed for android
-	static final String TITLE = "imageTitle";
-	static final String AUTHOR = "imageAuthor";
-	static final String PUB_DATE = "pubDate";
-	static final String IMAGE_THUMBNAIL = "imageThumbnail";
-	static final String IMAGE = "image";
+	public static final String IMAGE_TABLE = "picasaImage";
+	public static final String _ID = "_id"; // needed for android
+	public static final String TITLE = "imageTitle";
+	public static final String AUTHOR = "imageAuthor";
+	public static final String PUB_DATE = "pubDate";
+	public static final String IMAGE_THUMBNAIL = "imageThumbnail";
+	public static final String IMAGE = "image";
 	
 	public static final String CREATE_IMAGE_TABLE_SQL = 
 		"CREATE TABLE " + IMAGE_TABLE +
@@ -54,6 +54,27 @@ public class PicasaImageManager extends DataManager{
 			PUB_DATE + " DATE," +
 			IMAGE + " BLOB," +
 			IMAGE_THUMBNAIL + " BLOB);";
+	
+	public Cursor getAllImagesCursor() {
+		return db.query(IMAGE_TABLE, null, null, null, null, null, null);
+	}
+	
+	public Cursor getImagesForAlbumCursor(long albumId) {
+		ImageAlbumRelationshipManager relationshipMgr = new ImageAlbumRelationshipManager(db);
+		List<Long> imageIds = relationshipMgr.getImageIdsForAlbum(albumId);
+		String[] queryArgs = new String[imageIds.size()];
+		// HACK
+		String query = _ID + "IN (";
+		for(int i = 0; i < imageIds.size(); i++) {
+			query += "?";
+			queryArgs[i] = imageIds.get(i).toString();
+			if(i < imageIds.size()-1) {
+				query += ",";
+			}
+		}
+		query += ")";
+		return db.query(IMAGE_TABLE, null, query, queryArgs, null, null, PUB_DATE);
+	}
 	
 	protected long addImage(PicasaImage image) {
 		

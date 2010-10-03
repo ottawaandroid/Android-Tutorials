@@ -32,12 +32,17 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.SAXException;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.ListView;
+import ca.christophersaunders.tutorials.sqlite.adapters.AlbumCursorAdapter;
+import ca.christophersaunders.tutorials.sqlite.adapters.ImageCursorAdapter;
 import ca.christophersaunders.tutorials.sqlite.db.ImageAlbumDatabaseHelper;
 import ca.christophersaunders.tutorials.sqlite.db.PicasaAlbumManager;
+import ca.christophersaunders.tutorials.sqlite.db.PicasaImageManager;
 import ca.christophersaunders.tutorials.sqlite.picasa.PicasaAlbum;
 import ca.christophersaunders.tutorials.sqlite.picasa.PicasaHandler;
 import ca.christophersaunders.tutorials.sqlite.picasa.PicasaImage;
@@ -76,6 +81,26 @@ public class SQLiteAndroidTutorialMainActivity extends Activity {
 	        	imageView.setImageBitmap(thumbnail);
 	        	break;
 	        }
+	        
+	        Cursor albumCursor = albumManager.getAlbumCursor();
+	        startManagingCursor(albumCursor);
+	        String[] columns = new String[] { PicasaAlbumManager.TITLE, PicasaAlbumManager.AUTHOR };
+	        int[] names = new int[] {R.id.picasaAlbumTitle, R.id.picasaAlbumAuthor };
+	        AlbumCursorAdapter adapter = new AlbumCursorAdapter(this, R.layout.picasa_album_row, albumCursor, columns, names);
+	        
+	        PicasaImageManager imageManager = databaseHelper.getImageManager();
+	        Cursor imageCursor = imageManager.getAllImagesCursor();
+	        startManagingCursor(imageCursor);
+	        String[] img_columns = new String[] { PicasaImageManager.IMAGE_THUMBNAIL, PicasaImageManager.TITLE, PicasaImageManager.AUTHOR };
+	        int[] img_names = new int[] { R.id.imageThumbnail, R.id.imageTitleLabel, R.id.imageAuthorLabel };
+	        ImageCursorAdapter imageAdapter = new ImageCursorAdapter(this, R.layout.picasa_image_row, imageCursor, img_columns, img_names);
+	        
+	        
+	        
+	        ListView albumList = (ListView) findViewById(R.id.picasaAlbumList);
+	        albumList.setAdapter(imageAdapter);
+	        
+	        
         } catch (SAXException saxException) {
         	saxException.printStackTrace();
         } catch (MalformedURLException murlException) {

@@ -34,12 +34,12 @@ import ca.christophersaunders.tutorials.sqlite.picasa.PicasaImage;
 public class PicasaAlbumManager extends DataManager {
 	
 
-	static final String ALBUM_TABLE = "picasaAlbum";
+	public static final String ALBUM_TABLE = "picasaAlbum";
 	
-	static final String _ID = "_ID";
-	static final String TITLE = "albumTitle";
-	static final String AUTHOR = "albumAuthor";
-	static final String PUB_DATE = "createdDate";
+	public static final String _ID = "_id";
+	public static final String TITLE = "albumTitle";
+	public static final String AUTHOR = "albumAuthor";
+	public static final String PUB_DATE = "createdDate";
 	
 	static final String CREATE_ALBUM_TABLE_SQL = 
 		"CREATE TABLE " + ALBUM_TABLE +
@@ -52,6 +52,10 @@ public class PicasaAlbumManager extends DataManager {
 	public PicasaAlbumManager(SQLiteDatabase db) {
 		super(db);
 		// TODO Auto-generated constructor stub
+	}
+	
+	public Cursor getAlbumCursor() {
+		return db.query(ALBUM_TABLE, null, null, null, null, null, PUB_DATE);
 	}
 	
 	/**
