@@ -127,7 +127,7 @@ public class PicasaImage {
 			InputStream is = conn.getInputStream();
 			BufferedInputStream bis = new BufferedInputStream(is);
 			
-			ByteArrayBuffer imageBytesBuffer = new ByteArrayBuffer(100);
+			ByteArrayBuffer imageBytesBuffer = new ByteArrayBuffer(0x2000);
 			byte[] buffer = new byte[1024];
 			int current = 0;
 			while( (current = bis.read(buffer)) != -1) {

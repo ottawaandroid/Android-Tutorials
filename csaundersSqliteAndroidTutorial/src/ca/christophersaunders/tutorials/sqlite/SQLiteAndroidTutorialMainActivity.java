@@ -33,28 +33,73 @@ import org.xml.sax.SAXException;
 
 import android.app.Activity;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ImageView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ListView;
 import ca.christophersaunders.tutorials.sqlite.adapters.AlbumCursorAdapter;
-import ca.christophersaunders.tutorials.sqlite.adapters.ImageCursorAdapter;
 import ca.christophersaunders.tutorials.sqlite.db.ImageAlbumDatabaseHelper;
 import ca.christophersaunders.tutorials.sqlite.db.PicasaAlbumManager;
-import ca.christophersaunders.tutorials.sqlite.db.PicasaImageManager;
 import ca.christophersaunders.tutorials.sqlite.picasa.PicasaAlbum;
 import ca.christophersaunders.tutorials.sqlite.picasa.PicasaHandler;
-import ca.christophersaunders.tutorials.sqlite.picasa.PicasaImage;
 
 public class SQLiteAndroidTutorialMainActivity extends Activity {
+	private AlbumCursorAdapter albumCursorAdapter;
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        try {
+        ImageAlbumDatabaseHelper databaseHelper = new ImageAlbumDatabaseHelper(getApplicationContext());
+        PicasaAlbumManager albumManager = databaseHelper.getAlbumManager();
+        
+        Cursor albumCursor = albumManager.getAlbumCursor();
+        
+        // Let the activity manage the cursor so that our cursors get closed
+        // when our activity is finished
+        startManagingCursor(albumCursor);
+        
+        String[] columns = new String[] { PicasaAlbumManager.TITLE, PicasaAlbumManager.AUTHOR };
+        int[] names = new int[] {R.id.picasaAlbumTitle, R.id.picasaAlbumAuthor };
+        
+        albumCursorAdapter = new AlbumCursorAdapter(this, R.layout.picasa_album_row, albumCursor, columns, names);
+        
+        ListView albumList = (ListView) findViewById(R.id.picasaAlbumList);
+        albumList.setAdapter(albumCursorAdapter);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	MenuInflater inflater = getMenuInflater();
+    	inflater.inflate(R.menu.main_screen_menu, menu);
+    	return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	switch(item.getItemId()) {
+    	case R.id.addFeed:
+    		Log.i("Add Feed", "I'm afraid I cannot allow you to do that quite yet");
+    		break;
+    	case R.id.populateDefaults:
+    		populateDataWithDefaults();
+    		break;
+    	default:
+    		return false;
+    	}
+    	return true;
+    }
+    
+    /**
+     * Hardcoded example showing how we use everything that has been put together.
+     * This will pull down the RSS feed from a specific stream, parse it, then pull
+     * down all the images required and store them in the database.
+     */
+    public void populateDataWithDefaults() {
+    	try {
 	        SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
 	        PicasaHandler picasaHandler = new PicasaHandler();
 	        URL picasaFeed = new URL("http://picasaweb.google.com/data/feed/base/user/c.saunders322/albumid/5513471319225508497?alt=rss&kind=photo&hl=en_US");
@@ -72,36 +117,9 @@ public class SQLiteAndroidTutorialMainActivity extends Activity {
 		        	Log.e(getClass().toString(), "Something went wrong when trying to add new information to disk");
 		        }
 	        }
-	        
-	        // Just be sure we have all the data we will need
-	        album = albumManager.getAlbumByName(album.getTitle());
-	        ImageView imageView = (ImageView) findViewById(R.id.imagePreview);
-	        for(PicasaImage image : album.getAlbumImages()) {
-	        	Bitmap thumbnail = image.getThumbnail();
-	        	imageView.setImageBitmap(thumbnail);
-	        	break;
-	        }
-	        
-	        Cursor albumCursor = albumManager.getAlbumCursor();
-	        startManagingCursor(albumCursor);
-	        String[] columns = new String[] { PicasaAlbumManager.TITLE, PicasaAlbumManager.AUTHOR };
-	        int[] names = new int[] {R.id.picasaAlbumTitle, R.id.picasaAlbumAuthor };
-	        AlbumCursorAdapter adapter = new AlbumCursorAdapter(this, R.layout.picasa_album_row, albumCursor, columns, names);
-	        
-	        PicasaImageManager imageManager = databaseHelper.getImageManager();
-	        Cursor imageCursor = imageManager.getAllImagesCursor();
-	        startManagingCursor(imageCursor);
-	        String[] img_columns = new String[] { PicasaImageManager.IMAGE_THUMBNAIL, PicasaImageManager.TITLE, PicasaImageManager.AUTHOR };
-	        int[] img_names = new int[] { R.id.imageThumbnail, R.id.imageTitleLabel, R.id.imageAuthorLabel };
-	        ImageCursorAdapter imageAdapter = new ImageCursorAdapter(this, R.layout.picasa_image_row, imageCursor, img_columns, img_names);
-	        
-	        
-	        
-	        ListView albumList = (ListView) findViewById(R.id.picasaAlbumList);
-	        albumList.setAdapter(imageAdapter);
-	        
-	        
-        } catch (SAXException saxException) {
+	        // Since our data has changed, we need to inform the cursor to update itself
+	        albumCursorAdapter.getCursor().requery();
+    	} catch (SAXException saxException) {
         	saxException.printStackTrace();
         } catch (MalformedURLException murlException) {
         	murlException.printStackTrace();

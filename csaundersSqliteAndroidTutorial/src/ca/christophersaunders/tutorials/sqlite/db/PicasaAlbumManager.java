@@ -59,7 +59,8 @@ public class PicasaAlbumManager extends DataManager {
 	}
 	
 	/**
-	 * 
+	 * Saves the album to disk along with any images
+	 * associated with it.
 	 * @return the primary key for the stored album or
 	 * -1 if it failed
 	 */
