@@ -21,7 +21,7 @@
  ******************************************************************************/
 package ca.christophersaunders.tutorials.sqlite.adapters;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -38,16 +38,21 @@ import ca.christophersaunders.tutorials.sqlite.db.PicasaImageManager;
 
 public class ImageCursorAdapter extends SimpleCursorAdapter {
 	
+	private class ImageDataContainer {
+		private String title;
+		private String author;
+		private Bitmap thumbnail;
+	}
+	
 	private Context context;
 	private Cursor cursor;
-	private HashMap<String, Bitmap> cache = new HashMap<String, Bitmap>();
+	private ArrayList<ImageDataContainer> imageDataCache = new ArrayList<ImageDataContainer>();
 
 	public ImageCursorAdapter(Context context, int layout, Cursor c,
 			String[] from, int[] to) {
 		super(context, layout, c, from, to);
 		this.context = context;
 		this.cursor = c;
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
@@ -59,19 +64,30 @@ public class ImageCursorAdapter extends SimpleCursorAdapter {
 			v = inflater.inflate(R.layout.picasa_image_row, null);
 		}
 		
-		this.cursor.moveToPosition(pos);
+		String imageTitle, imageAuthor;
+		Bitmap imageThumbnail;
 		
-		
-		String imageTitle = cursor.getString(cursor.getColumnIndex(PicasaImageManager.TITLE));
-		String imageAuthor = cursor.getString(cursor.getColumnIndex(PicasaImageManager.AUTHOR));
-		Bitmap imageThumbnail = null;
-		String cacheKey = imageTitle + imageAuthor;
-		if(cache.containsKey(cacheKey)) {
-			imageThumbnail = cache.get(cacheKey);
+		if(pos < imageDataCache.size()) {
+			ImageDataContainer container = imageDataCache.get(pos);
+			imageTitle = container.title;
+			imageAuthor = container.author;
+			imageThumbnail = container.thumbnail;
+			
 		} else {
+			this.cursor.moveToPosition(pos);
+			
+			imageTitle = cursor.getString(cursor.getColumnIndex(PicasaImageManager.TITLE));
+			imageAuthor = cursor.getString(cursor.getColumnIndex(PicasaImageManager.AUTHOR));
+			imageThumbnail = null;
+			
 			byte thumbnailBytes[] = cursor.getBlob(cursor.getColumnIndex(PicasaImageManager.IMAGE_THUMBNAIL));
 			imageThumbnail = BitmapFactory.decodeByteArray(thumbnailBytes, 0, thumbnailBytes.length);
-			cache.put(cacheKey, imageThumbnail);
+			
+			ImageDataContainer container = new ImageDataContainer();
+			container.title = imageTitle;
+			container.author = imageAuthor;
+			container.thumbnail = imageThumbnail;
+			imageDataCache.add(pos, container);
 		}
 		
 		ImageView thumbnail = (ImageView) v.findViewById(R.id.imageThumbnail);

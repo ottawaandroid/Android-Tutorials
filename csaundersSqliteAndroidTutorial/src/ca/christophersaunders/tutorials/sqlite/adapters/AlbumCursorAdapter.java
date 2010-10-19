@@ -67,5 +67,6 @@ public class AlbumCursorAdapter extends SimpleCursorAdapter {
 		
 		return v;
 	}
+	
 
 }

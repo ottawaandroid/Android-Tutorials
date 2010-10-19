@@ -7,12 +7,22 @@
 
 !SLIDE smbullets center
 
-## Album View ##
+## The View ##
 
 [picasa_album_row.xml](./src/ca/christophersaunders/tutorials/sqlite/res/layout/picasa_album_row.xml)
 
-## Album Controller ##
+## The Adapter ##
 
-* Handles populating row with data as well as handling user input
+* Handles populating each row with data
 
 [AlbumCursorAdapter.java](./src/ca/christophersaunders/tutorials/sqlite/adapters/AlbumCursorAdapter.java)
+
+!SLIDE smbullets center
+
+## Handling Input ##
+
+* All we need to do is add a listener to the adapter
+* In our case the listener is the activity who owns the
+adapter in question
+
+[AlbumViewingActivity.java](./src/ca/christophersaunders/tutorials/sqlite/AlbumViewingActivity.java)

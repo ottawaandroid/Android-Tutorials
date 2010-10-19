@@ -33,7 +33,8 @@
             </intent-filter>
         </activity>
 
-    </application>
+    <activity android:name="AlbumImageViewingActivity"></activity>
+</application>
     <uses-sdk android:minSdkVersion="7" />
 
 

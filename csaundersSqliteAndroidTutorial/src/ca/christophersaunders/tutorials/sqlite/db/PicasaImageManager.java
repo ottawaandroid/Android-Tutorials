@@ -59,12 +59,12 @@ public class PicasaImageManager extends DataManager{
 		return db.query(IMAGE_TABLE, null, null, null, null, null, null);
 	}
 	
-	public Cursor getImagesForAlbumCursor(long albumId) {
+	public Cursor getImagesCursorForAlbumId(long albumId) {
 		ImageAlbumRelationshipManager relationshipMgr = new ImageAlbumRelationshipManager(db);
 		List<Long> imageIds = relationshipMgr.getImageIdsForAlbum(albumId);
 		String[] queryArgs = new String[imageIds.size()];
 		// HACK
-		String query = _ID + "IN (";
+		String query = _ID + " IN (";
 		for(int i = 0; i < imageIds.size(); i++) {
 			query += "?";
 			queryArgs[i] = imageIds.get(i).toString();
@@ -74,6 +74,11 @@ public class PicasaImageManager extends DataManager{
 		}
 		query += ")";
 		return db.query(IMAGE_TABLE, null, query, queryArgs, null, null, PUB_DATE);
+	}
+	
+	public Cursor getLimitedImagesCursorForAlbumId(long albumId, String selection, String[] selectionArgs) {
+		// TODO: Show as a way of limiting what we return from the database
+		return null;
 	}
 	
 	protected long addImage(PicasaImage image) {

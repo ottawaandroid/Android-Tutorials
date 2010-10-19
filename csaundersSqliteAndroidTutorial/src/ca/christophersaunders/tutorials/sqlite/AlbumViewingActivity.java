@@ -32,20 +32,24 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.SAXException;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 import ca.christophersaunders.tutorials.sqlite.adapters.AlbumCursorAdapter;
 import ca.christophersaunders.tutorials.sqlite.db.ImageAlbumDatabaseHelper;
 import ca.christophersaunders.tutorials.sqlite.db.PicasaAlbumManager;
 import ca.christophersaunders.tutorials.sqlite.picasa.PicasaAlbum;
 import ca.christophersaunders.tutorials.sqlite.picasa.PicasaHandler;
 
-public class SQLiteAndroidTutorialMainActivity extends Activity {
+public class AlbumViewingActivity extends Activity implements OnItemClickListener {
 	private AlbumCursorAdapter albumCursorAdapter;
 	
     /** Called when the activity is first created. */
@@ -70,6 +74,7 @@ public class SQLiteAndroidTutorialMainActivity extends Activity {
         
         ListView albumList = (ListView) findViewById(R.id.picasaAlbumList);
         albumList.setAdapter(albumCursorAdapter);
+        albumList.setOnItemClickListener(this);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -129,4 +134,18 @@ public class SQLiteAndroidTutorialMainActivity extends Activity {
         	pce.printStackTrace();
         }
     }
+    
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		long albumId = albumCursorAdapter.getItemId(position);
+		
+		// We need to pass the album information over to the next activity
+		Bundle extras = new Bundle();
+		extras.putLong(AlbumImageViewingActivity.ALBUM_ID, albumId);
+		
+		Intent imageBrowser = new Intent(this, AlbumImageViewingActivity.class);
+		imageBrowser.putExtras(extras);
+		
+		startActivity(imageBrowser);
+	}
 }
