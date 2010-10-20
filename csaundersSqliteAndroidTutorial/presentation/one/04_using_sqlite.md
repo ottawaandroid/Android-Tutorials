@@ -24,14 +24,6 @@
 
 ![Entity Relationship Diagram](image_album_er_diag.png)
 
-!SLIDE center
-
-# Picasa Objects #
-
-[PicasaAlbum.java](./src/ca/christophersaunders/tutorials/sqlite/picasa/PicasaAlbum.java)
-
-[PicasaImage.java](./src/ca/christophersaunders/tutorials/sqlite/picasa/PicasaImage.java)
-
 !SLIDE bullets incremental
 
 # Setting up the Database #
@@ -39,14 +31,14 @@
 * onCreate( ) - Overridden by subclass, used to create the database
 * onUpgrade( ) - Overridden by subclass, where migrations should occur
 
-!SLIDE code center transition=fade
+!SLIDE code transition=fade
 
 # Get the Code #
 
-git clone git@github.com:csaunders/Android-Tutorials.git
+### git clone git@github.com:csaunders/Android-Tutorials.git ###
 
 !SLIDE code center
 
 # Checkout Proper Revision #
 
-git checkout step_one
+### git checkout step_one ###

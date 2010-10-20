@@ -22,19 +22,25 @@
 package ca.christophersaunders.tutorials.sqlite;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 import ca.christophersaunders.tutorials.sqlite.adapters.ImageCursorAdapter;
 import ca.christophersaunders.tutorials.sqlite.db.ImageAlbumDatabaseHelper;
 import ca.christophersaunders.tutorials.sqlite.db.PicasaAlbumManager;
 import ca.christophersaunders.tutorials.sqlite.db.PicasaImageManager;
 import ca.christophersaunders.tutorials.sqlite.picasa.PicasaAlbum;
 
-public class AlbumImageViewingActivity extends Activity {
+public class AlbumImageViewingActivity extends Activity implements OnItemClickListener{
 	
 	public static final String ALBUM_ID = "album_id";
+	
+	private ImageCursorAdapter imageAdapter;
 	
 	@Override
 	public void onCreate(Bundle icicle) {
@@ -63,9 +69,24 @@ public class AlbumImageViewingActivity extends Activity {
 		String[] columns = new String[] {PicasaImageManager.TITLE, PicasaImageManager.AUTHOR, PicasaImageManager.IMAGE_THUMBNAIL};
 		int[] names = new int[] {R.id.imageTitleLabel, R.id.imageAuthorLabel, R.id.imageThumbnail};
 		
-		ImageCursorAdapter imageAdapter = new ImageCursorAdapter(this, R.layout.picasa_image_row, imagesCursor, columns, names);
+		imageAdapter = new ImageCursorAdapter(this, R.layout.picasa_image_row, imagesCursor, columns, names);
 		ListView listing = (ListView) findViewById(R.id.albumImagesList);
 		listing.setAdapter(imageAdapter);
+		listing.setOnItemClickListener(this);
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+		long imageId = imageAdapter.getItemId(position);
+		
+		Bundle extras = new Bundle();
+		extras.putLong(ImageViewingActivity.IMAGE_ID, imageId);
+		
+		Intent imageViewer = new Intent(this, ImageViewingActivity.class);
+		imageViewer.putExtras(extras);
+		
+		startActivity(imageViewer);
+		
 	}
 
 }

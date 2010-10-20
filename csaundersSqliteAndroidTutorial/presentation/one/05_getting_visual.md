@@ -1,5 +1,13 @@
 !SLIDE center transition=fade
 
+# Picasa Objects #
+
+[PicasaAlbum.java](./src/ca/christophersaunders/tutorials/sqlite/picasa/PicasaAlbum.java)
+
+[PicasaImage.java](./src/ca/christophersaunders/tutorials/sqlite/picasa/PicasaImage.java)
+
+!SLIDE center
+
 # Setting up the Database #
 
 Database Helper - [ImageAlbumDatabaseHelper.java](./src/ca/christophersaunders/tutorials/sqlite/db/ImageAlbumDatabaseHelper.java)
