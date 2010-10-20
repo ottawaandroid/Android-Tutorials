@@ -1,4 +1,32 @@
-!SLIDE bullets incremental transition=fade
+!SLIDE center transition=fade
+
+# Setting up the Database #
+
+Database Helper - [ImageAlbumDatabaseHelper.java](./src/ca/christophersaunders/tutorials/sqlite/db/ImageAlbumDatabaseHelper.java)
+
+!SLIDE bullets incremental center
+
+# Pulling the Data #
+
+SAX Parser - [PicasaHanlder.java](./src/ca/christophersaunders/tutorials/sqlite/picasa/PicasaHandler.java)
+
+!SLIDE center
+
+# Storing the Data #
+
+[PicasaAlbumManager.java](./src/ca/christophersaunders/tutorials/sqlite/db/PicasaAlbumManager.java)
+
+[PicasaImageManager.java](./src/ca/christophersaunders/tutorials/sqlite/db/PicasaImageManager.java)
+
+[ImageAlbumRelationshipManager.java](./src/ca/christophersaunders/tutorials/sqlite/db/ImageAlbumRelationshipManager.java)
+
+!SLIDE center
+
+# Putting It All Together #
+
+populateDataWithDefaults() - [SQLiteAndroidTutorialMainActivity.java](./src/ca/christophersaunders/tutorials/sqlite/SQLiteAndroidTutorialMainActivity.java)
+
+!SLIDE bullets incremental
 
 # Displaying our Data #
 

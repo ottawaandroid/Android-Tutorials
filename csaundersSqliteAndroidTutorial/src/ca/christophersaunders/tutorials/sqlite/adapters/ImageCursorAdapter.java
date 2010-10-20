@@ -38,15 +38,19 @@ import ca.christophersaunders.tutorials.sqlite.db.PicasaImageManager;
 
 public class ImageCursorAdapter extends SimpleCursorAdapter {
 	
+	// We have a container so we can store the information we
+	// need in memory and reduce the number of calls we make to
+	// the database.  This has helped reduce the amount of lag
+	// we get while scrolling back.  Initial lag is still 'bad'
 	private class ImageDataContainer {
 		private String title;
 		private String author;
 		private Bitmap thumbnail;
 	}
+	private ArrayList<ImageDataContainer> imageDataCache = new ArrayList<ImageDataContainer>();
 	
 	private Context context;
 	private Cursor cursor;
-	private ArrayList<ImageDataContainer> imageDataCache = new ArrayList<ImageDataContainer>();
 
 	public ImageCursorAdapter(Context context, int layout, Cursor c,
 			String[] from, int[] to) {

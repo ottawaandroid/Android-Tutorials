@@ -12,6 +12,8 @@
 
 ![The Data](the_data.png)
 
+[Full Data Feed](http://picasaweb.google.com/data/feed/base/user/c.saunders322/albumid/5513471319225508497?alt=rss&kind=photo&hl=en_US)
+
 !SLIDE full-page center
 
 ![The Data we Care About](the_data_we_care_about.png)
@@ -30,7 +32,6 @@
 
 [PicasaImage.java](./src/ca/christophersaunders/tutorials/sqlite/picasa/PicasaImage.java)
 
-
 !SLIDE bullets incremental
 
 # Setting up the Database #
@@ -38,30 +39,14 @@
 * onCreate( ) - Overridden by subclass, used to create the database
 * onUpgrade( ) - Overridden by subclass, where migrations should occur
 
-!SLIDE center
+!SLIDE code center transition=fade
 
-# Setting up the Database #
+# Get the Code #
 
-Database Helper - [ImageAlbumDatabaseHelper.java](./src/ca/christophersaunders/tutorials/sqlite/db/ImageAlbumDatabaseHelper.java)
+git clone git@github.com:csaunders/Android-Tutorials.git
 
-!SLIDE bullets incremental center
+!SLIDE code center
 
-# Pulling the Data #
+# Checkout Proper Revision #
 
-SAX Parser - [PicasaHanlder.java](./src/ca/christophersaunders/tutorials/sqlite/picasa/PicasaHandler.java)
-
-!SLIDE center
-
-# Storing the Data #
-
-[PicasaAlbumManager.java](./src/ca/christophersaunders/tutorials/sqlite/db/PicasaAlbumManager.java)
-
-[PicasaImageManager.java](./src/ca/christophersaunders/tutorials/sqlite/db/PicasaImageManager.java)
-
-[ImageAlbumRelationshipManager.java](./src/ca/christophersaunders/tutorials/sqlite/db/ImageAlbumRelationshipManager.java)
-
-!SLIDE center
-
-# Putting It All Together #
-
-populateDataWithDefaults() - [SQLiteAndroidTutorialMainActivity.java](./src/ca/christophersaunders/tutorials/sqlite/SQLiteAndroidTutorialMainActivity.java)
+git checkout step_one
