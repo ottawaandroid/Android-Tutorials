@@ -2,7 +2,7 @@
 
 # Picasa Objects #
 
-[PicasaAlbum.java](./src/ca/christophersaunders/tutorials/sqlite/picasa/PicasaAlbum.java)
+[PicasaAlbum.java](http://github.com/csaunders/Android-Tutorials/blob/master/sqlite/sqliteTutorial/src/ca/christophersaunders/tutorials/sqlite/picasa/PicasaAlbum.java)
 
 [PicasaImage.java](./src/ca/christophersaunders/tutorials/sqlite/picasa/PicasaImage.java)
 
