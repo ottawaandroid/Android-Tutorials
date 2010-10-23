@@ -30,3 +30,21 @@
 * +ORM Solutions (3rd party)
 * -Need to write DB code
 * -Android does not have a baked in ORM
+
+!SLIDE center transition=fade
+
+# Before We Get Started #
+
+!SLIDE bullets
+
+# SQLite Tutorial Notes #
+
+* Using default database storage location (flash)
+* Storing images in the database as Blobs
+* Pictures are fairly large (100KB / picture)
+
+!SLIDE center
+
+# SQLite Tutorial Notes #
+
+![Disk Usage](disk_usage.png)

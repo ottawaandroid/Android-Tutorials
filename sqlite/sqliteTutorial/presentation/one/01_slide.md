@@ -17,20 +17,32 @@
 * Been programming with Android for about 8 months both full-time and on the side
 * Also co-organizer for Ottawa Android
 
-!SLIDE bullets incremental transition=fade
+!SLIDE transition=fade full-screen
 
 # Android Projects #
 
-## Baby GO! ##
+!SLIDE center
+
+# (Super) Baby GO! #
+
+![Super Baby GO!](superbabygo_activity_listing.png)
+
+!SLIDE bullets
+
+# (Super) Baby GO! #
 
 * Port from BB client
 * Working with lots of data - Use combination of SQLite / JSON for storing data
 
-!SLIDE bullets incremental
+!SLIDE center
 
-# Android Projects #
+# Runr #
 
-## Runr ##
+![Runr](interval_screen.png)
+
+!SLIDE bullets
+
+# Runr #
 
 * Interval timer application for Android
 * Internally uses JSON to define state
