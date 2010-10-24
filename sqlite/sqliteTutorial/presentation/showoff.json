@@ -1,1 +1,11 @@
-{ "name": "Persistence on Android with SQLite", "sections": [ {"section":"one"} ]}
+{ "name": "Persistence on Android with SQLite", 
+  "sections": [ 
+  	      {"section":"introduction"},
+	      {"section":"storing"},
+	      {"section":"using_sqlite"},
+	      {"section":"getting_visual"},
+	      {"section":"android_db_woes"},
+	      {"section":"android_db_alternatives"},
+	      {"section":"conclusion"} 
+	      ]
+}

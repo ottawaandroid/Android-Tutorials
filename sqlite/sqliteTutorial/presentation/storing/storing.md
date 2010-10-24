@@ -2,7 +2,7 @@
 
 # Storage Methods #
 
-!SLIDE bullets incremental transition=fade
+!SLIDE bullets incremental
 
 # System Preferences #
 
@@ -10,7 +10,7 @@
 * -Not good for large amounts of data
 * -Not good for storing binary data
 
-!SLIDE bullets incremental transition=fade
+!SLIDE bullets incremental
 
 # JSON #
 
@@ -20,7 +20,7 @@
 * -Increases app size (if data in flash)
 * -Consitency Issues (if data on SD Card)
 
-!SLIDE bullets incremental transition=fade
+!SLIDE bullets incremental
 
 # SQLite #
 
@@ -31,20 +31,14 @@
 * -Need to write DB code
 * -Android does not have a baked in ORM
 
-!SLIDE center transition=fade
+!SLIDE bullets center
 
 # Before We Get Started #
-
-!SLIDE bullets
-
-# SQLite Tutorial Notes #
 
 * Using default database storage location (flash)
 * Storing images in the database as Blobs
 * Pictures are fairly large (100KB / picture)
 
 !SLIDE center
-
-# SQLite Tutorial Notes #
 
 ![Disk Usage](disk_usage.png)

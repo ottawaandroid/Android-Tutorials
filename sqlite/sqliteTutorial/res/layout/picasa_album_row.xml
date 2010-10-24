@@ -27,11 +27,16 @@
   android:orientation="vertical">
   <TextView
   	android:gravity="center"
+  	android:text="Album Title"
+  	android:textStyle="bold"
+  	android:textColor="#FFF"
+  	android:textSize="8pt"
   	android:layout_width="fill_parent"
   	android:layout_height="wrap_content"
   	android:id="@+id/picasaAlbumTitle" />
   <TextView
   	android:gravity="center"
+  	android:text="Album Author"
   	android:layout_width="fill_parent"
   	android:layout_height="wrap_content"
   	android:id="@+id/picasaAlbumAuthor" />
