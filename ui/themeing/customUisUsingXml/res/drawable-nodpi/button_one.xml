@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android">
+  <!-- Clicked State -->
+  <item android:state_pressed="true">
+    <shape>
+      <gradient
+	  android:startColor="#000000"
+	  android:endColor="#ffffff"
+	  android:angle="45" />
+      <padding
+	  android:left="5dip"
+	  android:top="10dip"
+	  android:bottom="0dip"
+	  android:right="15dip" />
+    </shape>
+  </item>
+  <!-- Selected State -->
+  <item android:state_focused="true">
+    <shape>
+      <solid android:color="#0000ff"/>
+      <corners
+	  android:topLeftRadius="15dip"
+	  android:topRightRadius="50dip"
+	  android:bottomRightRadius="2dip"
+	  android:bottomLeftRadius="5dip" />
+      <padding
+	  android:left="10dip"
+	  android:right="10dip"
+	  android:top="10dip"
+	  android:bottom="10dip" />
+    </shape>
+  </item>
+  <!-- Default State -->
+  <item>
+    <shape android:shape="oval">
+      <size
+	  android:width="20dip"
+	  android:height="10dip" />
+      <solid android:color="#ff0000" />
+      <stroke 
+	  android:width="3dip"
+	  android:color="#00ff00" />
+    </shape>
+  </item>
+</selector>
