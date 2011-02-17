@@ -12,7 +12,7 @@ import android.view.View;
 import org.codegist.crest.CRestBuilder;
 import org.codegist.crest.CRest;
 
-public class CRestDemoActivity extends Activity implements onClickListener
+public class CRestDemoActivity extends Activity implements OnClickListener
 {
 	Button get, post, put, delete;
 	EditText parameters, body;
@@ -29,7 +29,7 @@ public class CRestDemoActivity extends Activity implements onClickListener
         crest = new CRestBuilder()
         					.expectsJson()
         					.build();
-        plantService = crest.build(PlantService.class);
+        plantService = crest.build(PlantsService.class);
 
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
@@ -42,12 +42,16 @@ public class CRestDemoActivity extends Activity implements onClickListener
         parameters = fabricateEditText("Parameters (i.e 2)");
         body = fabricateEditText("Body (i.e JSON data)");
 
+        response = new TextView(this);
+
         addTo(root,
         	new View[] {
-	        	get, post, put, delete, parameters,
-	        	parameters, body,
+	        	get, post, put, delete,
+	        	parameters, body, response,
 	        	}
         	);
+
+        setContentView(root);
     }
 
     private Button fabricateButton(String title){
@@ -69,9 +73,25 @@ public class CRestDemoActivity extends Activity implements onClickListener
     	}
     }
 
+    private String getParams(){
+        return parameters.getText().toString();
+    }
+
+    private String getBody(){
+        return body.getText().toString();
+    }
+
     public void onClick(View v){
+        String params = getParams();
+        String body = getBody();
     	if(v == get){
-    		// TODO: Perform the GET request
+    		if(params.equals("count")){
+              response.setText(String.valueOf(plantService.getCount()));
+            } else if(params.length() == 0){
+                response.setText(plantService.getPlants().toString());
+            } else {
+                response.setText(plantService.getPlant(Integer.parseInt(getParams())).toString());
+            }
     	} else if(v == post){
     		// TODO: Perform the POST request
     	} else if(v == put){

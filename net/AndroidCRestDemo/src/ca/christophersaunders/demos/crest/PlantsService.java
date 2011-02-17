@@ -6,9 +6,15 @@ import org.codegist.crest.annotate.Path;
 import org.codegist.crest.annotate.HttpMethod;
 import org.codegist.crest.annotate.Destination;
 
-// TODO: static imports of BODY, POST, PUT, etc
+import java.util.List;
 
-@EndPoint("http://www.example.com")
+// TODO: static imports of BODY, POST, PUT, etc
+import static org.codegist.crest.HttpMethod.POST;
+import static org.codegist.crest.HttpMethod.PUT;
+import static org.codegist.crest.HttpMethod.DELETE;
+import static org.codegist.crest.config.Destination.BODY;
+
+@EndPoint("http://oacrestdemo.heroku.com")
 @ContextPath("/api")
 public interface PlantsService {
 		
